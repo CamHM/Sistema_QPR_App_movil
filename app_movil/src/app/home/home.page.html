@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button color="warning" size="default" fill="solid" (click)="takePicture()"><ion-icon name="camera"></ion-icon></ion-button>
+  <ion-card>
+    <img [src]="image" *ngIf="image" alt="Imagen no disponible"/>
+  </ion-card>
+</ion-content>
