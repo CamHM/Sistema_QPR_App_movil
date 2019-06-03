@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.page.html',
-  styleUrls: ['./reports.page.scss'],
+  selector: 'app-report',
+  templateUrl: './report.page.html',
+  styleUrls: ['./report.page.scss'],
 })
-export class ReportsPage implements OnInit {
+export class ReportPage implements OnInit {
 
-  picture: string = null;
+  picture: any;
 
   constructor(private camera: Camera) {}
 
@@ -18,13 +18,14 @@ export class ReportsPage implements OnInit {
   takePicture() {
     const options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
     };
+
     this.camera.getPicture(options)
         .then(imageData => {
-          this.picture = `data:image/jpeg;base64,${imageData}`;
+          this.picture = 'data:image/jpeg;base64,' + imageData;
         })
         .catch(error => {
           prompt(error);
