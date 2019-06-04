@@ -2,13 +2,13 @@ const { Router } = require('express');
 const router = Router();
 const multer = require('multer');
 const path = require('path');
-const uuid = require('uuid/v4')
+const uuid = require('uuid/v4');
 
 //Establecer como se van a guardar las imagenes
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../public/images'),
     filename: (req , file , callback) => {
-        callback(null, uuid() + path.extname(file.originalname));
+        callback(null, file.filename + path.extname(file.originalname));
     }
 })
 
@@ -36,7 +36,12 @@ const upload = multer({
 
 router.post('/upload',upload, (req, res) => {
     console.log(req.file)
-    res.send('uploaded');
+   res.json({message : 'uploaded'});
 });
+
+router.get(':name', (req, res) => {
+    let { name } = req.params.name;
+    res.sendFile(path.join(__dirname, "public/images/", name));
+})
 
 module.exports = router;

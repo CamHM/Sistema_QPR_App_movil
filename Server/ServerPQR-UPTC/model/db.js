@@ -9,4 +9,12 @@ const client = new pg.Client({
     ssl: true   
 });
 client.connect();
-module.exports = client;
+
+//Direcciones de los servidores de Imagenes
+const urlServer1 = "";
+const urlServer2 = "";
+module.exports = {
+    client,
+    urlServer1,
+    urlServer2
+};
