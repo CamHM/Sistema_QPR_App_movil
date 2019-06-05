@@ -22,7 +22,8 @@ const routes: Routes = [
         loadChildren: './home/reports-wall/reports-wall.module#ReportsWallPageModule'
       }
     ]
-  }
+  },
+  { path: 'camera', loadChildren: './home/report/camera/camera.module#CameraPageModule' }
 ];
 
 @NgModule({
