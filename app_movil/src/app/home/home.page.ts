@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router} from '@angular/router';
-import {User} from '../entity/user';
+import {Person} from '../entity/person';
 import {ReportService} from './report.service';
 
 @Component({
@@ -10,7 +10,7 @@ import {ReportService} from './report.service';
 })
 export class HomePage {
 
-  user: User;
+  user: Person;
 
   constructor(
       private router: Router,

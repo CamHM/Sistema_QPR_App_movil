@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
-import {User} from '../entity/user';
+import {Person} from '../entity/person';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  private users: User[] = [
+  private users: Person[] = [
     {
-      id: '201612173',
-      name: 'María',
-      lastName: 'Mendez',
-      imgUrl: 'https://www.arminreinhardt.com/wp-content/uploads/2017/04/gleicia.jpg'
+      code_person: 201612173,
+      first_name: 'María',
+      last_name: 'Mendez',
+      path_photo: 'https://www.arminreinhardt.com/wp-content/uploads/2017/04/gleicia.jpg',
+      type_person: 'E',
+      email: 'maria.mendez@uptc.edu.co',
+      password: 'mame123'
     }
   ];
 

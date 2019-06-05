@@ -10,6 +10,22 @@
 <ion-content>
   <ion-grid>
     <ion-row>
+      <ion-col size="10" offset="1">
+        <ion-item>
+          <ion-label position="floating" color="dark">Título</ion-label>
+          <ion-input color="dark"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="10" offset="1">
+        <ion-item>
+          <ion-label position="floating" color="dark">Descripción</ion-label>
+          <ion-textarea color="dark"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col>
         <ion-card *ngIf="picture">
           <ion-content>
@@ -19,8 +35,14 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="1" offset="5">
-        <ion-button color="warning" size="default" fill="solid" (click)="takePicture()"><ion-icon name="camera"></ion-icon></ion-button>
+      <ion-col offset="1">
+        <ion-button color="dark" size="default" fill="solid" shape="round" (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="warning" size="default" fill="solid" shape="round" (click)="takePicture()"><ion-icon name="camera"></ion-icon></ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="dark" size="default" fill="solid" shape="round" (click)="takePicture()"><ion-icon name="send"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

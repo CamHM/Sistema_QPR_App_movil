@@ -2,44 +2,46 @@
     <ion-toolbar color="warning">
         <ion-item color="warning">
             <ion-avatar>
-                <ion-img [src]="user.imgUrl"></ion-img>
+                <ion-img [src]="user.path_photo"></ion-img>
             </ion-avatar>
-            <ion-label margin> {{ user.name }} {{ user.lastName}} </ion-label>
+            <ion-label margin> {{ user.first_name }} {{ user.last_name}} </ion-label>
         </ion-item>
     </ion-toolbar>
 </ion-header>
-<ion-grid>
-    <ion-row>
-        <ion-col size="11" offset="0.5">
-            <ion-card>
-                <ion-img src="http://facultaddederechouptc.edu.co/images/placeholder/slider16.jpg"></ion-img>
-                <ion-item color="warning">
-                    <ion-label (click)="openReportPage()">Registrar problema</ion-label>
-                    <ion-icon name="arrow-round-forward" (click)="openReportPage()"></ion-icon>
-                </ion-item>
-            </ion-card>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col size="11" offset="0.5">
-            <ion-card>
-                <ion-img [src]="user.imgUrl"></ion-img>
-                <ion-item color="warning">
-                    <ion-label (click)="openMyReportsPage()">Mis reportes</ion-label>
-                    <ion-icon name="arrow-round-forward" (click)="openMyReportsPage()"></ion-icon>
-                </ion-item>
-            </ion-card>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col size="11" offset="0.5">
-            <ion-card>
-                <ion-img src="http://www.boyacaradio.com/imagenes/fotos_noticias/uptccc.jpg"></ion-img>
-                <ion-item color="warning">
-                    <ion-label (click)="openReportsWallPage()">Nuevos Reportes</ion-label>
-                    <ion-icon name="arrow-round-forward" (click)="openReportsWallPage()"></ion-icon>
-                </ion-item>
-            </ion-card>
-        </ion-col>
-    </ion-row>
-</ion-grid>
+<ion-content scrollY="true">
+    <ion-grid>
+        <ion-row>
+            <ion-col size="11" offset="0.5">
+                <ion-card>
+                    <ion-img src="http://facultaddederechouptc.edu.co/images/placeholder/slider16.jpg"></ion-img>
+                    <ion-item color="warning">
+                        <ion-label (click)="openReportPage()">Registrar problema</ion-label>
+                        <ion-icon name="arrow-round-forward" (click)="openReportPage()"></ion-icon>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="11" offset="0.5">
+                <ion-card>
+                    <ion-img [src]="user.path_photo"></ion-img>
+                    <ion-item color="warning">
+                        <ion-label (click)="openMyReportsPage()">Mis reportes</ion-label>
+                        <ion-icon name="arrow-round-forward" (click)="openMyReportsPage()"></ion-icon>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="11" offset="0.5">
+                <ion-card>
+                    <ion-img src="http://www.boyacaradio.com/imagenes/fotos_noticias/uptccc.jpg"></ion-img>
+                    <ion-item color="warning">
+                        <ion-label (click)="openReportsWallPage()">Nuevos Reportes</ion-label>
+                        <ion-icon name="arrow-round-forward" (click)="openReportsWallPage()"></ion-icon>
+                    </ion-item>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

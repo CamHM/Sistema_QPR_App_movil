@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {AlertController} from '@ionic/angular';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -10,9 +12,34 @@ export class ReportPage implements OnInit {
 
   picture: any;
 
-  constructor(private camera: Camera) {}
+  constructor(
+      private camera: Camera,
+      private alertCtrl: AlertController,
+      private router: Router
+  ) {}
 
   ngOnInit() {
+  }
+
+  async dismiss() {
+    const alert = await this.alertCtrl.create({
+      header: 'Descartar',
+      message: '¿Sumercé desea botar la publicación así como así?',
+      buttons: [
+        {
+          text: 'Descartar',
+          cssClass: 'danger',
+          handler: () => {
+            this.router.navigate(['/home']);
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'success'
+        }
+      ]
+    });
+    await alert.present();
   }
 
   takePicture() {
