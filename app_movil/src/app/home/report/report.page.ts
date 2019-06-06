@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import {ActionSheetController, AlertController, ToastController} from '@ionic/angular';
 import { Router } from '@angular/router';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {DomSanitizer} from '@angular/platform-browser';
+import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-report',
@@ -12,8 +13,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 })
 export class ReportPage implements OnInit {
 
-  picture: any;
-  imageResponse: string[];
+  map = new Map();
+  imagesCount = 0;
   latitude: any;
   longitude: any;
 
@@ -23,7 +24,9 @@ export class ReportPage implements OnInit {
       private geolocation: Geolocation,
       private alertCtrl: AlertController,
       private actionSheetCtrl: ActionSheetController,
-      private router: Router
+      public toastCtrl: ToastController,
+      private router: Router,
+      private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -67,13 +70,21 @@ export class ReportPage implements OnInit {
         icon: 'camera',
         cssClass: 'danger',
         handler: () => {
-          this.takePicture();
+          if (this.imagesCount < 4) {
+            this.takePicture();
+          } else {
+            this.showMaxPhotoToast().then();
+          }
         }
       }, {
         text: 'Subir foto',
         icon: 'photos',
         handler: () => {
-          this.getImages();
+          if (this.imagesCount < 4) {
+            this.getImages();
+          } else {
+            this.showMaxPhotoToast().then();
+          }
         }
       }, {
         text: 'Cancelar',
@@ -82,6 +93,14 @@ export class ReportPage implements OnInit {
       ]
     });
     await actionSheet.present();
+  }
+
+  async showMaxPhotoToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Puedes subir máximo 4 fotos',
+      duration: 2000
+    });
+    toast.present();
   }
 
   takePicture() {
@@ -94,9 +113,9 @@ export class ReportPage implements OnInit {
 
     this.camera.getPicture(options)
         .then(imageData => {
-          this.picture = 'data:image/jpeg;base64,' + imageData;
-          const image = document.getElementsByTagName('img').namedItem('picture');
-          image.src = 'data:image/jpeg;base64,' + imageData;
+          const picture = 'data:image/jpeg;base64,' + imageData;
+          console.log(picture);
+          this.map.set(this.imagesCount++, picture);
         })
         .catch(error => {
           prompt(error);
@@ -104,16 +123,18 @@ export class ReportPage implements OnInit {
   }
 
   getImages() {
-    this.imagePicker.getPictures({
+    const options: ImagePickerOptions = {
       maximumImagesCount: 4,
       quality: 50,
       outputType: 1
-    }).then((results) => {
-      for (const i of results) {
-        this.imageResponse.push(results[i]);
-      }
-    }).catch(err => {
-      alert(err);
+    };
+    this.imagePicker.getPictures(options)
+        .then((results) => {
+          for (let i = 0; i < results.length; i++) {
+            this.map.set(this.imagesCount++, 'data:image/jpeg;base64,' + results[i]);
+          }
+        }).catch((err) => {
+          alert(err);
     });
   }
 }

@@ -21,8 +21,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera,
-    ImagePicker,
-    Geolocation
+    Geolocation,
+    ImagePicker
   ],
   bootstrap: [AppComponent]
 })
