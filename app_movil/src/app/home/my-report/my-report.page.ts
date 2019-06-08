@@ -11,6 +11,7 @@ export class MyReportPage implements OnInit {
 
   slideOptions = {
     loop: true,
+    initialSlide: 0,
     speed: 400
   };
   posts: Post[];

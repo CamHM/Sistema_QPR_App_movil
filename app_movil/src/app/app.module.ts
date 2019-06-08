@@ -7,6 +7,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
+import { PopoverHomeComponent } from './home/popover-home/popover-home.component';
+
 import { AppRoutingModule } from './app-routing.module';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
@@ -16,8 +18,8 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent, PopoverHomeComponent],
+  entryComponents: [PopoverHomeComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

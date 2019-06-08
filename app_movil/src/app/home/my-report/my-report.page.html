@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card color="dark" *ngFor="let post of posts" lines="none">
+  <ion-card color="dark" *ngFor="let post of posts" lines="none" margin>
     <ion-card-content>
       <ion-slides pager="true" [options]="slideOptions">
         <ion-slide *ngFor="let photo of post.photos">
@@ -16,8 +16,10 @@
         </ion-slide>
       </ion-slides>
     </ion-card-content>
-    <ion-text>
-      <h4> {{ post.title }} </h4>
-    </ion-text>
+    <ion-title>
+      <ion-text class="ion-text-center">
+        <h4> {{ post.title }} </h4>
+      </ion-text>
+    </ion-title>
   </ion-card>
 </ion-content>

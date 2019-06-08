@@ -12,7 +12,7 @@ export class ReportsWallPage implements OnInit {
   posts: Post[];
   slideOptions = {
     loop: true,
-    initialSlide: 1,
+    initialSlide: 0,
     speed: 400
   };
 

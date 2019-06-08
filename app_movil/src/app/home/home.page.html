@@ -5,6 +5,7 @@
                 <ion-img [src]="user.path_photo"></ion-img>
             </ion-avatar>
             <ion-label margin> {{ user.first_name }} {{ user.last_name}} </ion-label>
+            <ion-icon name="more" (click)="presentPopover($event)"></ion-icon>
         </ion-item>
     </ion-toolbar>
 </ion-header>

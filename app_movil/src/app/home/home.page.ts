@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router} from '@angular/router';
 import {Person} from '../entity/person';
 import {ReportService} from './report.service';
+import {PopoverController} from '@ionic/angular';
+import {PopoverHomeComponent} from './popover-home/popover-home.component';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,8 @@ export class HomePage {
 
   constructor(
       private router: Router,
-      private reportService: ReportService
+      private reportService: ReportService,
+      public popoverCtrl: PopoverController
   ) {
     this.user = reportService.getUser();
   }
@@ -29,5 +32,14 @@ export class HomePage {
 
   openReportsWallPage() {
     this.router.navigate(['home/reports-wall']);
+  }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverCtrl.create({
+      component: PopoverHomeComponent,
+      event: ev,
+      translucent: true
+    });
+    return await popover.present();
   }
 }
