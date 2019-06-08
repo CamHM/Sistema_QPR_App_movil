@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ReportService} from '../report.service';
+import {Post} from '../../entity/post';
 
 @Component({
   selector: 'app-my-report',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyReportPage implements OnInit {
 
-  constructor() { }
+  slideOptions = {
+    loop: true,
+    initialSlide: 1,
+    speed: 400
+  };
+  posts: Post[];
+
+  constructor(
+      private reportService: ReportService
+  ) { }
 
   ngOnInit() {
+    this.loadPosts();
   }
 
+  loadPosts() {
+    this.posts = this.reportService.getMyPost();
+  }
 }

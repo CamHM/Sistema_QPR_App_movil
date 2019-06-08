@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ReportService} from '../report.service';
+import {Post} from '../../entity/post';
 
 @Component({
   selector: 'app-reports-wall',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsWallPage implements OnInit {
 
-  constructor() { }
+  posts: Post[];
+  slideOptions = {
+    loop: true,
+    initialSlide: 1,
+    speed: 400
+  };
+
+
+  constructor(private reportService: ReportService) { }
 
   ngOnInit() {
+    this.loadPosts();
   }
 
+  loadPosts() {
+    this.posts = this.reportService.getPosts();
+  }
 }

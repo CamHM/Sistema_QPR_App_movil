@@ -11,19 +11,14 @@
   <ion-grid>
     <ion-row>
       <ion-col offset="1">
-        <ion-badge> longitud: {{ longitude }} </ion-badge>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset="1">
-        <ion-badge> latitud: {{ latitude }} </ion-badge>
+        <ion-badge> latitud: {{ latitude }}   ---   longitud: {{ longitude }}</ion-badge>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="10" offset="1">
         <ion-item>
           <ion-label position="floating" color="dark">Título</ion-label>
-          <ion-input color="dark"></ion-input>
+          <ion-input [(ngModel)]="title" autofocus="true" required></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -31,14 +26,14 @@
       <ion-col size="10" offset="1">
         <ion-item>
           <ion-label position="floating" color="dark">Descripción</ion-label>
-          <ion-textarea color="dark"></ion-textarea>
+          <ion-textarea [(ngModel)]="desc" color="dark" autoGrow="true" maxlength="450" required></ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="4" *ngFor="let img of map | keyvalue">
+      <ion-col *ngFor="let img of map | keyvalue" offset="1">
         <ion-item lines="none">
-            <img [id]="img.key" [src]="img.value" alt="">
+            <img [id]="img.key" [src]="img.value" alt="" width="100" height="100" (click)="zoomPhoto(img.value)" (press)="showDeleteAlert(img.key)" >
         </ion-item>
       </ion-col>
     </ion-row>
@@ -50,7 +45,7 @@
         <ion-button color="warning" size="default" fill="solid" shape="round" (click)="presentPhotoOptions()"><ion-icon name="camera"></ion-icon></ion-button>
       </ion-col>
       <ion-col>
-        <ion-button color="dark" size="default" fill="solid" shape="round" (click)="takePicture()"><ion-icon name="send"></ion-icon></ion-button>
+        <ion-button color="dark" size="default" fill="solid" shape="round" (click)="sendPost()"><ion-icon name="send"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -3,8 +3,11 @@ import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {ActionSheetController, AlertController, ToastController} from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import {DomSanitizer} from '@angular/platform-browser';
-import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
+import { ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult} from '@ionic-native/native-geocoder/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import {Post} from '../../entity/post';
+import {ReportService} from '../report.service';
 
 @Component({
   selector: 'app-report',
@@ -15,32 +18,48 @@ export class ReportPage implements OnInit {
 
   map = new Map();
   imagesCount = 0;
+  imagesAmount = 0;
   latitude: any;
   longitude: any;
+  actualDate: string;
+  title = '';
+  desc = '';
 
   constructor(
       private camera: Camera,
       private imagePicker: ImagePicker,
+      private photoViewer: PhotoViewer,
       private geolocation: Geolocation,
+      private nativeGeocoder: NativeGeocoder,
       private alertCtrl: AlertController,
       private actionSheetCtrl: ActionSheetController,
       public toastCtrl: ToastController,
       private router: Router,
-      private sanitizer: DomSanitizer
+      private reportService: ReportService
   ) {}
 
   ngOnInit() {
     this.getPosition();
+    this.getReverseGeocoder();
   }
 
   getPosition() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
+      this.latitude = resp.coords.latitude.toFixed(4);
+      this.longitude = resp.coords.longitude.toFixed(4);
       console.log(`latitud: ${this.latitude} - longitud: ${this.longitude}`);
     });
   }
 
+  getReverseGeocoder() {
+    const options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 1
+    };
+    this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
+        .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
+        .catch((error: any) => console.log(error));
+  }
   async dismiss() {
     const alert = await this.alertCtrl.create({
       header: 'Descartar',
@@ -63,36 +82,32 @@ export class ReportPage implements OnInit {
   }
 
   async presentPhotoOptions() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Opciones',
-      buttons: [{
-        text: 'Tomar foto',
-        icon: 'camera',
-        cssClass: 'danger',
-        handler: () => {
-          if (this.imagesCount < 4) {
+    if (this.imagesCount < 4) {
+      const actionSheet = await this.actionSheetCtrl.create({
+        header: 'Opciones',
+        buttons: [{
+          text: 'Tomar foto',
+          icon: 'camera',
+          cssClass: 'danger',
+          handler: () => {
             this.takePicture();
-          } else {
-            this.showMaxPhotoToast().then();
           }
-        }
-      }, {
-        text: 'Subir foto',
-        icon: 'photos',
-        handler: () => {
-          if (this.imagesCount < 4) {
+        }, {
+          text: 'Subir foto',
+          icon: 'photos',
+          handler: () => {
             this.getImages();
-          } else {
-            this.showMaxPhotoToast().then();
           }
+        }, {
+          text: 'Cancelar',
+          role: 'cancel'
         }
-      }, {
-        text: 'Cancelar',
-        role: 'cancel'
-      }
-      ]
-    });
-    await actionSheet.present();
+        ]
+      });
+      await actionSheet.present();
+    } else {
+      this.showMaxPhotoToast().then();
+    }
   }
 
   async showMaxPhotoToast() {
@@ -115,7 +130,8 @@ export class ReportPage implements OnInit {
         .then(imageData => {
           const picture = 'data:image/jpeg;base64,' + imageData;
           console.log(picture);
-          this.map.set(this.imagesCount++, picture);
+          this.map.set(this.imagesAmount++, picture);
+          this.imagesCount++;
         })
         .catch(error => {
           prompt(error);
@@ -131,10 +147,69 @@ export class ReportPage implements OnInit {
     this.imagePicker.getPictures(options)
         .then((results) => {
           for (let i = 0; i < results.length; i++) {
-            this.map.set(this.imagesCount++, 'data:image/jpeg;base64,' + results[i]);
+            this.map.set(this.imagesAmount++, 'data:image/jpeg;base64,' + results[i]);
+            this.imagesCount++;
           }
         }).catch((err) => {
           alert(err);
+    });
+  }
+
+  zoomPhoto(photo) {
+    this.photoViewer.show(photo);
+  }
+
+  async showDeleteAlert(photoKey) {
+    const alert = await this.alertCtrl.create({
+      header: 'Borrar foto',
+      message: '¿Sumercé está seguro que quiere quitar esa bella foto?',
+      buttons: [
+        {
+          text: 'Elminar',
+          handler: () => {
+            this.map.delete(photoKey);
+            this.imagesCount--;
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  sendPost() {
+    const today = new Date();
+    const date = today.getFullYear() + '/ ' + (today.getMonth() + 1) + '/ ' + today.getDate();
+    const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    this.actualDate = date + ' - ' + time;
+
+    const post = new Post();
+    post.id_post = -1;
+    post.code_person = 201612173;
+    post.title = this.title;
+    post.content = this.desc;
+    post.latitude = this.latitude;
+    post.longitude = this.longitude;
+    this.reportService
+        .sendPost(post).subscribe(res => {
+          console.log(res);
+          this.showSendMessage().then();
+    } );
+  }
+
+  async showSendMessage() {
+    const toast = await this.toastCtrl.create({
+      message: `Publicación registrada!
+      ${this.actualDate}`,
+      duration: 3000,
+      position: 'top',
+      color: 'medium'
+    });
+    toast.present().then(() => {
+      this.router.navigate(['/home']);
     });
   }
 }
