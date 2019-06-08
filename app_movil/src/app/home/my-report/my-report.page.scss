@@ -1,11 +1,6 @@
-ion-card {
-  padding-bottom: 45%;
-  padding-top: 25%;
-  background-image: linear-gradient(to right, rgba(207,166,36,0), rgba(207,166,36,0.6), rgba(207,166,36,0));
+img {
+  max-width: 100% !important;
 }
-ion-text {
-  font-size: 30px;
-  font-family: "Gill Sans Extrabold", Helvetica, sans-serif;
-  color: aliceblue;
+ion-slide {
+  width: 100%;
 }
-
