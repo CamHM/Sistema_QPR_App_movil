@@ -9,17 +9,7 @@ import {Post} from '../entity/post';
 })
 export class ReportService {
 
-  private users: Person[] = [
-    {
-      code_person: 201612173,
-      first_name: 'María',
-      last_name: 'Mendez',
-      path_photo: 'https://www.arminreinhardt.com/wp-content/uploads/2017/04/gleicia.jpg',
-      type_person: 'E',
-      email: 'maria.mendez@uptc.edu.co',
-      password: 'mame123'
-    }
-  ];
+  private user: Person;
 
   private myPosts: Post[] = [
     {
@@ -149,8 +139,12 @@ export class ReportService {
 
   constructor(private http: HttpClient) { }
 
+  setUser(person: Person) {
+    this.user = person;
+  }
+
   getUser() {
-    return this.users[0];
+    return this.user;
   }
 
   public sendPost(post): Observable<Post> {

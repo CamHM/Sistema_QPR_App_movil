@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'home',
     children: [
@@ -23,7 +23,9 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'camera', loadChildren: './home/report/camera/camera.module#CameraPageModule' }
+  { path: 'camera', loadChildren: './home/report/camera/camera.module#CameraPageModule' },
+  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
+  { path: 'register', loadChildren: './login/register/register.module#RegisterPageModule' }
 ];
 
 @NgModule({

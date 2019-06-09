@@ -14,7 +14,7 @@
         <ion-row>
             <ion-col size="11" offset="0.5">
                 <ion-card>
-                    <ion-img src="../assets/report-img.jpg"></ion-img>
+                    <ion-img src="../assets/report-img.jpg" (click)="openReportPage()"></ion-img>
                     <ion-item color="warning">
                         <ion-label (click)="openReportPage()">Registrar problema</ion-label>
                         <ion-icon name="arrow-round-forward" (click)="openReportPage()"></ion-icon>
@@ -25,7 +25,7 @@
         <ion-row>
             <ion-col size="11" offset="0.5">
                 <ion-card>
-                    <ion-img [src]="user.path_photo"></ion-img>
+                    <ion-img [src]="user.path_photo" (click)="openMyReportsPage()"></ion-img>
                     <ion-item color="warning">
                         <ion-label (click)="openMyReportsPage()">Mis noticias</ion-label>
                         <ion-icon name="arrow-round-forward" (click)="openMyReportsPage()"></ion-icon>
@@ -36,7 +36,7 @@
         <ion-row>
             <ion-col size="11" offset="0.5">
                 <ion-card>
-                    <ion-img src="../assets/wall-img.jpg"></ion-img>
+                    <ion-img src="../assets/wall-img.jpg" (click)="openReportsWallPage()"></ion-img>
                     <ion-item color="warning">
                         <ion-label (click)="openReportsWallPage()">Muro de noticias</ion-label>
                         <ion-icon name="arrow-round-forward" (click)="openReportsWallPage()"></ion-icon>
