@@ -12,7 +12,7 @@
     <ion-card-content>
       <ion-slides pager="true" [options]="slideOptions">
         <ion-slide *ngFor="let photo of post.photos">
-          <img [src]="photo.img" alt="Imagen no disponible">
+          <img [src]="'data:image/jpeg;base64,' + photo.img" alt="Imagen no disponible">
         </ion-slide>
       </ion-slides>
     </ion-card-content>

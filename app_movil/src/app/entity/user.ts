@@ -1,4 +1,4 @@
 export class User {
-    code_person: number;
+    email: string;
     password: string;
 }

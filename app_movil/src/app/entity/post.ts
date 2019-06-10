@@ -4,6 +4,7 @@ export class Post {
     title: string;
     content: string;
     date: string;
+    time_post: string;
     latitude: number;
     longitude: number;
     photos: any[];

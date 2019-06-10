@@ -12,7 +12,7 @@ import {ReportService} from '../home/report.service';
 })
 export class LoginPage implements OnInit {
 
-  code: string;
+  email: string;
   password: string;
 
   constructor(
@@ -26,13 +26,13 @@ export class LoginPage implements OnInit {
 
   login() {
     const user = new User();
-    user.code_person = +this.code;
+    user.email = this.email;
     user.password = this.password;
     console.log(user);
     this.loginService.login(user).subscribe(res  => {
-      this.reportService.setUser(res[0]);
+      this.reportService.setUser(res);
       this.router.navigate(['home']);
-      this.code = '';
+      this.email = '';
       this.password = '';
     }, (err: any) => {
       console.log(err);

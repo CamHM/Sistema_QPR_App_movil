@@ -8,6 +8,7 @@ import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult} from '@ion
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import {Post} from '../../entity/post';
 import {ReportService} from '../report.service';
+import {forEach} from '@angular-devkit/schematics';
 
 @Component({
   selector: 'app-report',
@@ -21,7 +22,7 @@ export class ReportPage implements OnInit {
   imagesAmount = 0;
   latitude: any;
   longitude: any;
-  actualDate: string;
+  time: string;
   title = '';
   desc = '';
 
@@ -47,7 +48,6 @@ export class ReportPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude.toFixed(4);
       this.longitude = resp.coords.longitude.toFixed(4);
-      console.log(`latitud: ${this.latitude} - longitud: ${this.longitude}`);
     });
   }
 
@@ -129,7 +129,6 @@ export class ReportPage implements OnInit {
     this.camera.getPicture(options)
         .then(imageData => {
           const picture = 'data:image/jpeg;base64,' + imageData;
-          console.log(picture);
           this.map.set(this.imagesAmount++, picture);
           this.imagesCount++;
         })
@@ -181,29 +180,37 @@ export class ReportPage implements OnInit {
   }
 
   sendPost() {
+    const user = this.reportService.getUser();
     const today = new Date();
-    const date = today.getFullYear() + '/ ' + (today.getMonth() + 1) + '/ ' + today.getDate();
+    const date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
     const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-    this.actualDate = date + ' - ' + time;
-
+    this.time = time;
     const post = new Post();
     post.id_post = -1;
-    post.code_person = 201612173;
+    post.code_person = user.code_person;
     post.title = this.title;
     post.content = this.desc;
     post.latitude = this.latitude;
     post.longitude = this.longitude;
+    post.date = date;
+    post.time_post = time;
     this.reportService
         .sendPost(post).subscribe(res => {
-          console.log(res);
+          this.map.forEach((value, key, map) => {
+            this.reportService.sendImages({ post: res.id_post, code_person: user.code_person, img: value})
+                .subscribe( ( response ) => {
+                  console.log(response);
+                });
+          });
           this.showSendMessage().then();
     } );
   }
 
   async showSendMessage() {
+    console.log('Se jue!');
     const toast = await this.toastCtrl.create({
       message: `Publicación registrada!
-      ${this.actualDate}`,
+      ${this.time}`,
       duration: 3000,
       position: 'top',
       color: 'medium'

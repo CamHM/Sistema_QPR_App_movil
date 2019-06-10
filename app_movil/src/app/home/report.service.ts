@@ -3,6 +3,7 @@ import {Person} from '../entity/person';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Post} from '../entity/post';
+import {HTTP_URL, IMG_SERVER_A} from '../config';
 
 @Injectable({
   providedIn: 'root'
@@ -10,50 +11,7 @@ import {Post} from '../entity/post';
 export class ReportService {
 
   private user: Person;
-
-  private myPosts: Post[] = [
-    {
-      id_post: 1,
-      code_person: 201612173,
-      title: 'Fallo eléctrivo edificio Central',
-      content: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum',
-      date: '01/02/2019 - 10:02:12',
-      latitude: 5.4569,
-      longitude: -71.2658,
-      photos: [
-        {
-          img: 'https://cdn.pixabay.com/photo/2019/05/20/22/41/apple-4217863_960_720.jpg'
-        },
-        {
-          img: 'https://cdn.pixabay.com/photo/2017/09/21/18/55/hildesheim-2772941_960_720.jpg'
-        },
-        {
-          img: 'https://cdn.pixabay.com/photo/2018/04/23/15/04/salt-3344508_960_720.jpg'
-        }
-      ]
-    },
-    {
-      id_post: 1,
-      code_person: 201612173,
-      title: 'Se jue la luz',
-      content: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum',
-      date: '01/02/2019 - 10:02:12',
-      latitude: 5.4569,
-      longitude: -71.2658,
-      photos: [
-        {
-          img: 'https://cdn.pixabay.com/photo/2017/08/01/12/14/wall-2564902_960_720.jpg'
-        },
-        {
-          img: 'https://cdn.pixabay.com/photo/2019/06/05/14/27/forest-4253766_960_720.jpg'
-        },
-        {
-          img: 'https://cdn.pixabay.com/photo/2019/06/04/16/31/canyon-4251799_960_720.jpg'
-        }
-      ]
-    }
-  ];
-
+  /*
   private posts: Post[] = [
     {
       id_post: 1,
@@ -136,7 +94,7 @@ export class ReportService {
       ]
     }
   ];
-
+  */
   constructor(private http: HttpClient) { }
 
   setUser(person: Person) {
@@ -148,14 +106,24 @@ export class ReportService {
   }
 
   public sendPost(post): Observable<Post> {
-    return this.http.post<Post>('http://192.168.137.95:3000/post/add', post);
+    return this.http.post<Post>(`${HTTP_URL}/post`, post);
   }
 
-  getMyPost() {
-    return this.myPosts;
+  public sendImages(data): Observable<any> {
+    return this.http.post<any>(`${HTTP_URL}/photopost/`, data);
+  }
+  getUserPost(): Observable<Post[]> {
+    return this.http.post<Post[]>(`${HTTP_URL}/post/posts`, {code_person: this.user.code_person});
+  }
+  getPostReferencePhotos(postId): Observable<any[]> {
+    return this.http.post<any[]>(`${HTTP_URL}/photopost/post`, {id_post: postId});
+  }
+
+  getPostPhotos(imgPath): Observable<any[]> {
+    return this.http.post<any[]>(`${IMG_SERVER_A}/download`, {path_img: imgPath });
   }
 
   getPosts() {
-    return this.posts;
+    return [];
   }
 }

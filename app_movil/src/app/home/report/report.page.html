@@ -31,7 +31,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col *ngFor="let img of map | keyvalue" offset="1">
+      <ion-col *ngFor="let img of map | keyvalue">
         <ion-item lines="none">
             <img [id]="img.key" [src]="img.value" alt="" width="100" height="100" (click)="zoomPhoto(img.value)" (press)="showDeleteAlert(img.key)" >
         </ion-item>
