@@ -8,13 +8,32 @@ router.get('/', function(req, res) {
     if (err) {
       res.status(401).json({ message : `${err.message}`});
     }else{
+        console.log(results.rows);
         res.status(200).json(results.rows);
     }
   })
 });
 
+/* Iniciar session */
+router.post('/login', (req , res) => {
+  console.log(req.body)
+  let { email, password } = req.body;
+  client.query(`SELECT CODE_PERSON, FIRST_NAME, LAST_NAME, coalesce(PATH_PHOTO, 'https://upload.wikimedia.org/wikipedia/commons/d/d3/User_Circle.png') AS PATH_PHOTO , TYPE_PERSON, EMAIL, PERSON.PASSWORD
+              FROM PERSON
+              WHERE EMAIL = $1
+              AND PERSON.PASSWORD = $2`,[email, password], (err, results) => {
+  if (err) {
+    res.status(401).json({ message : 0 });
+  }else{
+      console.log(results.rows);
+      res.status(200).json(results.rows[0]);
+  }
+})
+});
+
 /* Agregar persona */
-router.post('add', (req, res) =>{
+router.post('/', (req, res) =>{
+  console.log(req.body)
   let { code_person, first_name, last_name,type_person, email, password } = req.body;
   client.query(`INSERT INTO PERSON (code_person, first_name, last_name, type_person, email, password) 
   values ($1,$2,$3,$4,$5,$6)`, 

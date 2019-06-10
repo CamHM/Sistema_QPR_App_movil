@@ -11,7 +11,7 @@ const client = new pg.Client({
 client.connect();
 
 //Direcciones de los servidores de Imagenes
-const urlServer1 = "";
+const urlServer1 = "http://localhost:3300";
 const urlServer2 = "";
 module.exports = {
     client,

@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 //Se definen por aparte cada una de las entidades
 var personRouter = require('./routes/person');
@@ -13,9 +14,10 @@ var photoPostRouter = require('./routes/photo_post');
 
 var app = express();
 
+app.use(cors());
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit: '10mb', extended: true}));
+app.use(express.urlencoded({limit: '10mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -24,7 +26,7 @@ app.use('/person', personRouter);
 app.use('/post', postRouter);
 app.use('/like', likeRouter);
 app.use('/comment', commentRouter);
-app.use('/photoPost', photoPostRouter);
+app.use('/photopost', photoPostRouter);
 
 // catch 404 and forward to error handler
 /*app.use(function(req, res, next) {
