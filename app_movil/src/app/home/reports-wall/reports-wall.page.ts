@@ -16,6 +16,7 @@ export class ReportsWallPage implements OnInit {
     speed: 400
   };
 
+  offset = 0;
 
   constructor(private reportService: ReportService) { }
 
@@ -24,6 +25,22 @@ export class ReportsWallPage implements OnInit {
   }
 
   loadPosts() {
-    this.posts = this.reportService.getPosts();
+    this.reportService.getAllPosts(this.offset)
+        .subscribe(res => {
+          this.posts = res;
+          for (const i of res) {
+            this.offset++;
+            i.photos = [];
+            this.reportService.getPostReferencePhotos(i.id_post)
+                .subscribe(photos => {
+                  for (const j of photos) {
+                    this.reportService.getPostPhotos(j.img)
+                        .subscribe(img => {
+                          i.photos.push(img);
+                        });
+                  }
+                });
+          }
+        });
   }
 }

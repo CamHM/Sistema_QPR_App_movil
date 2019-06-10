@@ -39,8 +39,6 @@ export class MyReportPage implements OnInit {
                     });
               }
             });
-          console.log('Array de photos');
-          console.log(i.photos);
       }
     });
   }

@@ -10,9 +10,12 @@
 <ion-content>
   <ion-card color="light" *ngFor="let post of posts" lines="none" margin>
     <ion-card-content>
+      <ion-card-subtitle>
+        <h3> {{ post.first_name + ' ' + post.last_name}}</h3>
+      </ion-card-subtitle><br>
       <ion-slides pager="true" [options]="slideOptions">
         <ion-slide *ngFor="let photo of post.photos">
-          <img [src]="photo.img" alt="Imagen no disponible">
+          <img [src]="'data:image/jpeg;base64,' + photo.img" alt="Imagen no disponible">
         </ion-slide>
       </ion-slides>
       <ion-text class="ion-text-center">
