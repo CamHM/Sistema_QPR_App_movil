@@ -18,26 +18,25 @@ router.post('/posts', (req, res) => {
                 ORDER BY ID_POST`, [code_person], 
   (err, results) => {
     if (err) {
-      console.log(err.message);
       res.status(401).json({ message : `${err.message}`});
     }else{
-      console.log(results.rows);
       res.status(201).json(results.rows);
     }
   });
 })
 
+
 /* Obtener todas las publicaciones */
 /* Se dejo quemado el valor que va a ser de a 3 el incremento de los post */
-router.get('/:limit/:code_person', (req, res) => {
-  let limit = req.params.limit;
-  let code_person = req.params.code_person;
-  client.query(`SELECT ID_POST,CODE_PERSON,DATE, CONTENT, LATITUDE, LONGITUDE
-                FROM POST
-                WHERE CODE_PERSON != $1
-                ORDER BY ID_POST
-                LIMIT $2
-                OFFSET 3 `, [code_person, limit], 
+router.post('/allpost', (req, res) => {
+  let {offset, code_person} = req.body;
+  client.query(`SELECT FIRST_NAME, LAST_NAME, PATH_PHOTO,ID_POST, PO.CODE_PERSON, PO.DATE, PO.CONTENT, LATITUDE, LONGITUDE, TITLE, TIME_POST
+                FROM POST PO, PERSON PE
+                WHERE PO.CODE_PERSON != $1
+                AND PO.CODE_PERSON = PE.CODE_PERSON
+                ORDER BY PO.DATE DESC, TIME_POST DESC
+                LIMIT 3
+                OFFSET $2 `, [code_person, offset], 
   (err, results) => {
     if (err) {
       res.status(401).json({ message : `${err.message}`});

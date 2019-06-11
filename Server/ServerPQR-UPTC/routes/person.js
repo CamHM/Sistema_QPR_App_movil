@@ -31,6 +31,8 @@ router.post('/login', (req , res) => {
 })
 });
 
+
+
 /* Agregar persona */
 router.post('/', (req, res) =>{
   console.log(req.body)
@@ -42,7 +44,7 @@ router.post('/', (req, res) =>{
     if (err) {
       res.status(401).json({ message : `${err.message}`});
     }else{
-      res.status(201).json({ message : `Person added with Name: ${name_platform}`});
+      res.status(201).json({ message : `Person added with Name: ${first_name}`});
     }
   });
 })

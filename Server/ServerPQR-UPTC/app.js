@@ -28,6 +28,10 @@ app.use('/like', likeRouter);
 app.use('/comment', commentRouter);
 app.use('/photopost', photoPostRouter);
 
+app.get('/', (req, res) =>{
+  res.send("Buena");
+})
+
 // catch 404 and forward to error handler
 /*app.use(function(req, res, next) {
   next(createError(404));
