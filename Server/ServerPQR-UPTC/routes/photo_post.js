@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 
 //Enviar las fotos que vienen del servidor
 router.post('/post', (req, res) => {
+  console.log(req.body);
   let { id_post } = req.body;
   client.query(`SELECT PATH_PHOTO as img FROM PHOTO_POST WHERE ID_POST = $1`,
   [id_post], 
