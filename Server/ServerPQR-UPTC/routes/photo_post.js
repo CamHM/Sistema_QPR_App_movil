@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var {client , urlServer1 } = require('../model/db');
+var {client , urlServer1, urlServer2 } = require('../model/db');
 var axios = require('axios');
 var uuidv4 = require('uuid/v4');
 /* GET users listing. */
@@ -28,13 +28,12 @@ router.post('/', (req, res) => {
   console.log("Llego ", post);
   let id_post = post;
   let nameimg = uuidv4();
-  let type = 'jpeg'
-  axios.post(urlServer1 + "/img", {
-    nameimg,
-    img,
-    type
-  }).then( (response) => {
-    let {message, status } = response.data;
+  let type = 'jpeg';
+  axios.all([
+    axios.post(urlServer1 + "/img", { nameimg, img, type }),
+    axios.post(urlServer2 + "/img", { nameimg, img, type })
+  ]).then( ([response1, response2]) => {
+    let {message, status } = response1.data;
     console.log(message);
     if(status){
       console.log("el id que me envio es: ",id_post);

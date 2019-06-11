@@ -46,6 +46,20 @@ router.post('/allpost', (req, res) => {
   });
 })
 
+/* Tener todas las publicaciones */
+router.get('/dashboard', (req, res) => {
+  client.query(`SELECT FIRST_NAME, LAST_NAME, PATH_PHOTO,ID_POST, PO.CODE_PERSON, PO.DATE, PO.CONTENT, LATITUDE, LONGITUDE, TITLE, TIME_POST
+                FROM POST PO, PERSON PE
+                ORDER BY PO.DATE DESC, TIME_POST DESC `,
+  (err, results) => {
+    if (err) {
+      res.status(401).json({ message : `${err.message}`});
+    }else{
+      res.status(201).json(results.rows);
+    }
+  });
+})
+
 /* Agregar Publicación */
 router.post('/', (req, res) =>{
   let { code_person, date,content, latitude, longitude, title, time_post } = req.body;
