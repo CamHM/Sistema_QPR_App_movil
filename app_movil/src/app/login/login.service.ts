@@ -19,7 +19,7 @@ export class LoginService {
   ) { }
 
   register(user: User): Observable<Person> {
-    return this.http.post<Person>(`${HTTP_URL}/person/login`, user).pipe(
+    return this.http.post<Person>(`${this.reportService.getURL()}/person/login`, user).pipe(
         tap(async (res: Person ) => {
 
         })
@@ -27,6 +27,6 @@ export class LoginService {
   }
 
   login(user: User): Observable<Person> {
-    return this.http.post<Person>('http://192.168.1.6:3000/person/login', user);
+    return this.http.post<Person>(`${this.reportService.getURL()}/person/login`, user);
   }
 }

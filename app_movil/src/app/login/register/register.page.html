@@ -1,5 +1,4 @@
 <ion-content  color="warning">
-  <form  #form="ngForm" (ngSubmit)="register(form)">
     <ion-grid>
       <ion-row color="primary" justify-content-center>
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
@@ -8,24 +7,29 @@
           </div>
           <div padding>
             <ion-item>
-              <ion-input  name="name" type="text" placeholder="Nombre" ngModel required></ion-input>
+              <ion-input  type="text" name="first" placeholder="Nombre" [(ngModel)]="first_name" required></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="email" type="email" placeholder="your@uptc.edu.co" ngModel required></ion-input>
+              <ion-input  type="text" placeholder="Apellido" [(ngModel)]="last_name" required></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="password" type="password" placeholder="Contraseña" ngModel required></ion-input>
+              <ion-input  type="number" placeholder="Codigo" [(ngModel)]="code_person" required></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="confirm" type="password" placeholder="Repita contraseña" ngModel required></ion-input>
+              <ion-input type="email" placeholder="your@uptc.edu.co" [(ngModel)]="email" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="password" placeholder="Contraseña" [(ngModel)]="password" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="password" placeholder="Repita contraseña" [(ngModel)]="passwordAgain" required></ion-input>
             </ion-item>
           </div>
           <div padding>
-            <ion-button color="dark" size="large" type="submit" [disabled]="form.invalid" expand="block">Registrar</ion-button>
+            <ion-button color="dark" size="large" (click)="register()" expand="block">Registrar</ion-button>
           </div>
         </ion-col>
         <ion-button color="dark" (click)="back()"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
       </ion-row>
     </ion-grid>
-  </form>
 </ion-content>

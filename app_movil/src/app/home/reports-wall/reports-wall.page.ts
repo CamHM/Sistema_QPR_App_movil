@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ReportService} from '../report.service';
 import {Post} from '../../entity/post';
+import {IonContent} from '@ionic/angular';
 
 @Component({
   selector: 'app-reports-wall',
@@ -9,7 +10,9 @@ import {Post} from '../../entity/post';
 })
 export class ReportsWallPage implements OnInit {
 
-  posts: Post[];
+  @ViewChild('ion-content') content: IonContent;
+
+  posts: Post[] = [];
   slideOptions = {
     loop: true,
     initialSlide: 0,
@@ -27,8 +30,8 @@ export class ReportsWallPage implements OnInit {
   loadPosts() {
     this.reportService.getAllPosts(this.offset)
         .subscribe(res => {
-          this.posts = res;
           for (const i of res) {
+            this.posts.push(i);
             this.offset++;
             i.photos = [];
             this.reportService.getPostReferencePhotos(i.id_post)
@@ -42,5 +45,19 @@ export class ReportsWallPage implements OnInit {
                 });
           }
         });
+  }
+
+  refresh(event) {
+      setTimeout(() => {
+          this.loadPosts();
+          event.target.complete();
+      }, 1500);
+  }
+
+  refreshPost() {
+      setTimeout(() => {
+         this.loadPosts();
+         this.content.scrollToTop();
+      }, 1000);
   }
 }

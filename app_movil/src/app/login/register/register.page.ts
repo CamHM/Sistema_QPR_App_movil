@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from '../login.service';
 import {Router} from '@angular/router';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -9,9 +10,19 @@ import {Router} from '@angular/router';
 })
 export class RegisterPage implements OnInit {
 
+  code_person: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  passwordAgain: string;
+  path_photo: string;
+  type: string;
+
   constructor(
       private loginService: LoginService,
-      private router: Router
+      private router: Router,
+      private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -21,10 +32,24 @@ export class RegisterPage implements OnInit {
     this.router.navigate(['login']);
   }
 
-  register(form) {
-    this.loginService.register(form.value).subscribe((res) => {
-      this.router.navigate(['home']);
-    });
+  register() {
+    if (this.password !== this.passwordAgain) {
+      this.passwordMessage().then();
+    }
   }
 
+  async passwordMessage() {
+    const alert = await this.alertCtrl.create({
+      header: 'Campo invalido',
+      message: 'Las contraseñas digitadas no coinciden',
+      buttons: [
+        {
+          text: 'Aceptar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }
+      ]
+    });
+    await alert.present();
+  }
 }

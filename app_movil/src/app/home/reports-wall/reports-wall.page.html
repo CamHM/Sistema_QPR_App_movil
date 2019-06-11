@@ -3,7 +3,8 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Muro de reportes</ion-title>
+    <ion-title >Muro de reportes</ion-title>
+    <ion-icon name="refresh" size="large" color="tertiary" slot="end" padding (click)="refreshPost()"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -27,4 +28,9 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="refresh($event)">
+    <ion-infinite-scroll-content
+            loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
