@@ -50,6 +50,7 @@ router.post('/allpost', (req, res) => {
 router.get('/dashboard', (req, res) => {
   client.query(`SELECT FIRST_NAME, LAST_NAME, PATH_PHOTO,ID_POST, PO.CODE_PERSON, PO.DATE, PO.CONTENT, LATITUDE, LONGITUDE, TITLE, TIME_POST
                 FROM POST PO, PERSON PE
+                WHERE PO.CODE_PERSON = PE.CODE_PERSON
                 ORDER BY PO.DATE DESC, TIME_POST DESC `,
   (err, results) => {
     if (err) {
